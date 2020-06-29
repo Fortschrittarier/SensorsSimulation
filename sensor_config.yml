@@ -1,0 +1,23 @@
+--- 
+Duration: 120s
+Sensors: 
+  - 
+    Interval: 1000
+    Name: "bl 1"
+    Sensor: Blocking
+  - 
+    Interval: 6000
+    Name: "nb 1"
+    Sensor: NonBlocking
+  - 
+    Interval: 600
+    Name: "bl 2"
+    Sensor: Blocking
+  - 
+    Interval: 5000
+    Name: "nb 2"
+    Sensor: Blocking
+  - 
+    Interval: 7000
+    Name: "nb 3"
+    Sensor: NonBlocking
