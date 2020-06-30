@@ -9,17 +9,13 @@
 
 // Description of one sensor
 class SensorConfig {
+public:
+
     enum class Sort {
         blocking,
         nonBlocking
     };
-    std::string name_;
-    uint32_t interval_ = 0;
-    Sort type_;
-    std::map<std::string, std::string> other_;
-
-public:
-
+    
     // Setter
     virtual void name(std::string nm) {
         name_ = nm;
@@ -87,6 +83,13 @@ public:
         }
         return false;
     }
+
+protected:
+    std::string name_;
+    uint32_t interval_ = 0;
+    Sort type_;
+    std::map<std::string, std::string> other_;
+
 };
 
 // This class parses a "sensor config" file and 
@@ -147,4 +150,4 @@ protected:
 };
 
 
-#endif // CONFIGPARSER_HPP
+#endif  // CONFIGPARSER_HPP
