@@ -6,6 +6,8 @@
 #include <iostream>
 #include <iomanip>
 
+#include "include/configparser.hpp"
+
 using Timestamp = std::chrono::system_clock::time_point;
 
 // A sensor sample consisting of a value (int) and a timestamp when it was "sensed" (rather when it was created)
@@ -161,6 +163,9 @@ private:
 };
 
 int main() {
+
+    std::string filePath = "/home/xif/dev/deepup/yaml/sensor_config.yml";
+    ConfigParser conf(filePath);
 
     using namespace std::chrono_literals;
     Timestamp program_start = std::chrono::system_clock::now();
