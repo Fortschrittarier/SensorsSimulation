@@ -7,30 +7,30 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include "./sensor.hpp"
+
 // Description of one sensor
 class SensorConfig {
 public:
-
-    enum class Sort {
-        blocking,
-        nonBlocking
-    };
     
     // Setter
-    virtual void name(std::string nm) {
+    virtual void name(std::string nm) 
+    {
         name_ = nm;
     }
     
-    virtual void interval(uint32_t itv) {
+    virtual void interval(uint32_t itv) 
+    {
         interval_ = itv;
     }
     
-    virtual void type(std::string tp) {
+    virtual void type(std::string tp) 
+    {
         if (tp == "Blocking") {
-            type_ = Sort::blocking;
+            type_ = Sensor::Sort::blocking;
         }
         else if (tp == "NonBlocking") {
-            type_ = Sort::nonBlocking;
+            type_ = Sensor::Sort::nonBlocking;
         }
         else {
             std::string msg = "Unknown type for sensor: " + tp;
@@ -38,29 +38,34 @@ public:
         }
     }
 
-    virtual void other(std::string key, std::string value) {
+    virtual void other(std::string key, std::string value) 
+    {
         other_.insert(std::pair<std::string, std::string>(key, value));
     }
 
     // Getter
-    virtual std::string name() const {
+    virtual std::string name() const 
+    {
         return name_;
     }
 
-    virtual uint32_t interval() const {
+    virtual uint32_t interval() const 
+    {
         return interval_;
     }
 
-    virtual Sort type() const {
+    virtual Sensor::Sort type() const 
+    {
         return type_;
     }
 
-    virtual std::string type_str() const {
+    virtual std::string type_str() const 
+    {
         switch (type_)
         {
-        case Sort::blocking:
+        case Sensor::Sort::blocking:
             return "Blocking";
-        case Sort::nonBlocking:
+        case Sensor::Sort::nonBlocking:
             return "NonBlocking";
         default:
             break;
@@ -68,16 +73,18 @@ public:
         return "ERROR_NO_TYPE";
     }
 
-    virtual std::map<std::string, std::string> other() const {
+    virtual std::map<std::string, std::string> other() const 
+    {
         return other_;
     }
 
 
     // Make sure sensitive values are valid
-    virtual bool valid() {
+    virtual bool valid() 
+    {
         if (name_.length() > 0 && 
             interval_ > 0 && 
-            ((type_ == Sort::blocking) || (type_ == Sort::nonBlocking))
+            ((type_ == Sensor::Sort::blocking) || (type_ == Sensor::Sort::nonBlocking))
         ) {
             return true;
         }
@@ -87,14 +94,15 @@ public:
 protected:
     std::string name_;
     uint32_t interval_ = 0;
-    Sort type_;
+    Sensor::Sort type_;
     std::map<std::string, std::string> other_;
 
 };
 
 // This class parses a "sensor config" file and 
 // provides the extracted information
-class ConfigParser {
+class ConfigParser 
+{
 public:
     ConfigParser(std::string configPath) {
         root = YAML::LoadFile(configPath);
@@ -115,7 +123,8 @@ protected:
     std::vector<SensorConfig> sensorConfigs;
     uint32_t duration_;
 
-    virtual void initSensors(YAML::Node sensorsNode) {
+    virtual void initSensors(YAML::Node sensorsNode) 
+    {
         // Loop sensors array
         for(size_t i = 0; i < sensorsNode.size(); i++) {
             SensorConfig sensor;
@@ -139,7 +148,7 @@ protected:
             }
 
             if (sensor.valid()) {
-                sensorConfigs.push_back(sensor);
+                sensorConfigs.push_back( sensor );
             }
             else {
                 std::cerr << "ERROR: Bad values for sensor number " << i << " (counting from 0)" << std::endl;

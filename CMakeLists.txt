@@ -13,4 +13,8 @@ set_target_properties(yaml-lib PROPERTIES
 )
 
 add_executable(sensors main.cpp)
+
+set_property(TARGET sensors PROPERTY CXX_STANDARD 17)
+
+
 target_link_libraries(sensors pthread atomic yaml-lib)
