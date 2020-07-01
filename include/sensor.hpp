@@ -63,11 +63,11 @@ public:
         m_run = true;
 
         m_sensorThread = std::thread([this]() {
-            int v = 0;
-            while (m_run) {
-                std::this_thread::sleep_for(m_intervalMS);
-                m_currentSample.store(Sample(v++));
-            }
+                int v = 0;
+                while (m_run) {
+                    std::this_thread::sleep_for(m_intervalMS);
+                    m_currentSample.store(Sample(v++));
+                }
             });
     }
 

@@ -12,19 +12,19 @@ int main() {
     constexpr int width = precision + 4;
     std::cout << std::fixed << std::setprecision(precision);
 
-/***                       ***/
+/***                                                                       ***/
     std::string filePath = "/home/xif/dev/deepup/yaml/sensor_config.yml";
-    ConfigParser conf(filePath);
+    ConfigParser parser(filePath);
     SensorHub hub;
 
-    for (SensorConfig cfg : conf.sensors()) {
+    for (SensorConfig cfg : parser.sensors()) {
         hub.createSensor(cfg);
     }
 
     for (std::shared_ptr<Sensor> snr : hub.sensors()) {
         std::cout << snr->getName() << std::endl;
     }
-/***                       ***/
+/***                                                                        ***/
 
     // NonBlockingSensor nb("nb 1", 1000);
     // BlockingSensor b(" b 1", 3500);
