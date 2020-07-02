@@ -4,7 +4,7 @@
 #include "include/configparser.hpp"
 #include "include/sensorhub.hpp"
 
-int main() {
+int main(int argc, char* argv[]) {
 
     // Save program start time
     using namespace std::chrono_literals;
@@ -15,7 +15,11 @@ int main() {
     interval = std::chrono::duration<int, std::milli>(100);
 
     // Define config file and parse it
-    std::string filePath = "/home/xif/dev/deepup/yaml/sensor_config.yml";
+    if( argc > 2 ) {
+        std::cout << "Please provide a sensor conig file.";
+        return -1;
+    }
+    std::string filePath = argv[1];
     ConfigParser parser(filePath);
 
     // Create logger and empty sensor hub
