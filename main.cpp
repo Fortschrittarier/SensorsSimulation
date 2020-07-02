@@ -14,9 +14,9 @@ int main(int argc, char* argv[]) {
     std::chrono::duration<int, std::milli> interval;
     interval = std::chrono::duration<int, std::milli>(100);
 
-    // Define config file and parse it
-    if( argc > 2 ) {
-        std::cout << "Please provide a sensor conig file.";
+    // Check config file and parse it
+    if( argc < 2 ) {
+        std::cout << "Please provide a sensor conig file." << std::endl;
         return -1;
     }
     std::string filePath = argv[1];
