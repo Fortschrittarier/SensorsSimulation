@@ -58,7 +58,10 @@ public:
         unqueue( samples );
         std::sort( samples.begin(), samples.end(), sort_by_timestamp );
         
-        for( auto const& [producer, spl] : samples ) {
+        for( auto const& item : samples ) {
+            std::string producer = item.first;
+            Sample spl = item.second;
+            
             elapsed_seconds = spl.getTimestamp() - program_start_;
             srm << "[" << elapsed_seconds.count() << "s] '" << producer << "': " << spl.getValue() << std::endl;
         }
