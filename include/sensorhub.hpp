@@ -8,9 +8,6 @@
 #include "./sampleslogger.hpp"
 
 
-#define SIMPLE_DEBUG 1
-#include "./simple_debug.hpp"
-
 class SensorHub {
 public:
     SensorHub(std::shared_ptr<SamplesLogger> l) {
@@ -55,9 +52,7 @@ public:
             case Sensor::Sort::blocking:
                  thr = std::make_shared<std::thread>([this, snr]() {
                      while( snr->running() ) {
-                        // DEBUG_MSG(snr->getName())
                         logger->queue( snr->getName(), snr->sense() );
-                        // std::this_thread::sleep_for( std::chrono::duration<int, std::milli>(100) ); ///// !
                      }
                 });
                 break;
@@ -68,14 +63,12 @@ public:
                         std::chrono::system_clock::from_time_t(0);
 
                     while( snr->running() ) {
-                        // DEBUG_MSG(snr->getName())
                         Sample s = snr->sense();
                         if( s.getTimestamp() != last ) {
                             last = s.getTimestamp();
                             logger->queue( snr->getName(), s );
                         }
                         std::this_thread::sleep_for( snr->interval()/2 );
-                        // std::this_thread::sleep_for( std::chrono::duration<int, std::milli>(100) ); ///// !
                      }
 
                 });
