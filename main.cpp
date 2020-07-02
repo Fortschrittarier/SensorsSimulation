@@ -35,8 +35,9 @@ int main(int argc, char* argv[]) {
     hub.start();
 
     // Define log file and open it
+    std::string logfile = "sensor_log.txt";
     std::ofstream logfile_stream;
-    logfile_stream.open("sensor_log.txt");
+    logfile_stream.open( logfile );
 
     // Run 100*interval ms long
     for (int i = 100; i > 0; i--) {
@@ -51,6 +52,9 @@ int main(int argc, char* argv[]) {
 
     // Close the log file
     logfile_stream.close();
-    
+
+    msg = "Log file: " + logfile + "\n";
+    logger->screen(msg);
+
     return 0;
 }
