@@ -45,7 +45,8 @@ int main() {
         logger->duo( logfile_stream );
     }
 
-    // Stop all sensors
+    // Stop all sensors 
+    // (And wait also for the one with the slowest interval.)
     hub.stop();
 
     // Flush remaining log data

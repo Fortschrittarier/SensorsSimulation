@@ -51,14 +51,15 @@ public:
     virtual std::string formatted() {
         std::stringstream srm;
         std::deque<std::pair<std::string, Sample>> samples;
+        std::chrono::duration<double> elapsed_seconds;
 
-        srm  << std::setprecision(5);
+        srm  << std::fixed << std::setprecision(4);
 
         unqueue( samples );
         std::sort( samples.begin(), samples.end(), sort_by_timestamp );
         
         for( auto const& [producer, spl] : samples ) {
-            std::chrono::duration<double> elapsed_seconds = spl.getTimestamp() - program_start_;
+            elapsed_seconds = spl.getTimestamp() - program_start_;
             srm << "[" << elapsed_seconds.count() << "s] '" << producer << "': " << spl.getValue() << std::endl;
         }
         return srm.str();

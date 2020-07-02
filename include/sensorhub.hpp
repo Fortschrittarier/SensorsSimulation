@@ -50,25 +50,35 @@ public:
             switch (snr->getSort())
             {
             case Sensor::Sort::blocking:
-                 thr = std::make_shared<std::thread>([this, snr]() {
-                     while( snr->running() ) {
+                thr = std::make_shared<std::thread>( [this, snr] () 
+                {
+                    while( snr->running() ) {
                         logger->queue( snr->getName(), snr->sense() );
-                     }
+                    }
                 });
                 break;
 
             case Sensor::Sort::nonBlocking:
-                thr = std::make_shared<std::thread>([this, snr]() {
+                thr = std::make_shared<std::thread>( [this, snr] () 
+                {
                     std::chrono::system_clock::time_point last =
                         std::chrono::system_clock::from_time_t(0);
 
+                    // Get rid of initial value "-1"
+                    Sample s0 = snr->sense();
+                    while( snr->running() && s0.getValue() == -1 ) {
+                        std::this_thread::sleep_for( snr->interval()/2 );
+                        s0 = snr->sense();
+                    }
+
+                    Sample s = s0;
                     while( snr->running() ) {
-                        Sample s = snr->sense();
                         if( s.getTimestamp() != last ) {
                             last = s.getTimestamp();
                             logger->queue( snr->getName(), s );
                         }
                         std::this_thread::sleep_for( snr->interval()/2 );
+                        s = snr->sense();
                      }
 
                 });
