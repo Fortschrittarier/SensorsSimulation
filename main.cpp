@@ -46,11 +46,9 @@ int main() {
     }
 
     // Stop all sensors 
-    // (And wait also for the one with the slowest interval.)
+    std::string msg = "Waiting for sensors to stop...\n";
+    logger->screen(msg);
     hub.stop();
-
-    // Flush remaining log data
-    logger->duo( logfile_stream );
 
     // Close the log file
     logfile_stream.close();

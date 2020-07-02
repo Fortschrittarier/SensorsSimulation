@@ -99,10 +99,7 @@ public:
 
     virtual const bool running() const
     {
-        if( m_run.load() == true ) {
-            return true;
-        }
-        return false;
+        return m_run.load();
     }
 
     virtual const std::chrono::duration<int, std::milli> interval() const

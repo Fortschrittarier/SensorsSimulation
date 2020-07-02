@@ -10,14 +10,12 @@
 
 class SensorHub {
 public:
-    SensorHub(std::shared_ptr<SamplesLogger> l) {
+    SensorHub(std::shared_ptr<SamplesLogger> l) 
+    {
         logger = l ;
     }
 
-    virtual std::vector<std::shared_ptr<Sensor>>& sensors() {
-        return m_sensors;
-    }
-
+    // Create a shared_ptr for a single sensor and store it in vector
     virtual void createSensor(SensorConfig cfg) 
     {
         if (!cfg.valid()) {
@@ -41,6 +39,7 @@ public:
         m_sensors.push_back(snr);
     }
 
+    // Start all stored sensors and process each in an own thread
     virtual void start() 
     {
         for( auto snr : m_sensors ) {
@@ -91,6 +90,7 @@ public:
         }
     }
 
+    // Stop all sensors and wait for their threads to terminate
     virtual void stop() {
         for( auto const& st_pair : m_sensor_thread_map ) {
             st_pair.first->stop();   // Sensor ptr

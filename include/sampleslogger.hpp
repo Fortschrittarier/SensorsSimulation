@@ -40,7 +40,7 @@ public:
 
     virtual void screen( std::string& s ) 
     {
-        std::cout << s;
+        std::cout << s << std::flush;
     }
 
     virtual void screen() 
