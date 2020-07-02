@@ -1,6 +1,8 @@
 #include <iostream>
+#include <deque>
 #include <mutex>
 #include <vector>
+#include <algorithm>
 
 #include "./sensor.hpp"
 
@@ -9,8 +11,16 @@ using namespace std::chrono_literals;
 class SamplesLogger {
 protected:
     std::mutex mx_;
-    std::map<std::string, Sample> samples_;
+    std::deque<std::pair<std::string, Sample>> samples_;
     Timestamp program_start_;
+
+    static bool sort_by_timestamp(
+            std::pair<std::string, Sample> & lval, 
+            std::pair<std::string, Sample> & rval) 
+    {
+        return (lval.second.getTimestamp() < rval.second.getTimestamp());
+    }
+
 public:
     SamplesLogger( Timestamp program_start ) :
         program_start_( program_start ) {
@@ -40,11 +50,13 @@ public:
 
     virtual std::string formatted() {
         std::stringstream srm;
-        std::map<std::string, Sample> samples;
+        std::deque<std::pair<std::string, Sample>> samples;
 
         srm  << std::setprecision(5);
 
         unqueue( samples );
+        std::sort( samples.begin(), samples.end(), sort_by_timestamp );
+        
         for( auto const& [producer, spl] : samples ) {
             std::chrono::duration<double> elapsed_seconds = spl.getTimestamp() - program_start_;
             srm << "[" << elapsed_seconds.count() << "s] '" << producer << "': " << spl.getValue() << std::endl;
@@ -55,10 +67,10 @@ public:
     virtual void queue( std::string producer, Sample spl ) 
     {
         const std::lock_guard<std::mutex> lock( mx_ );
-        samples_.insert( {producer, spl} );
+        samples_.push_back( {producer, spl} );
     }
 
-    virtual void unqueue( std::map<std::string, Sample>& samples_copy ) 
+    virtual void unqueue( std::deque<std::pair<std::string, Sample>>& samples_copy ) 
     {
         const std::lock_guard<std::mutex> lock( mx_ );
         samples_copy = samples_;
