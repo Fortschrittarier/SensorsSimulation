@@ -10,4 +10,10 @@ add_subdirectory("${CMAKE_SOURCE_DIR}/3rd_party/yaml-cpp")
 
 
 add_executable(sensors main.cpp)
-target_link_libraries(sensors PRIVATE yaml-cpp pthread atomic)
+
+
+if( "${CMAKE_SYSTEM_NAME}" STREQUAL "Linux" )
+    target_link_libraries(sensors PRIVATE yaml-cpp pthread atomic)
+elseif( "${CMAKE_SYSTEM_NAME}" STREQUAL "Windows" )
+    target_link_libraries(sensors PRIVATE yaml-cpp)
+endif()
