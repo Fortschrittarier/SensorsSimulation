@@ -10,11 +10,6 @@ int main() {
     using namespace std::chrono_literals;
     Timestamp program_start = std::chrono::system_clock::now();
 
-    // Set precision for floating point numbers on screen
-    constexpr int precision = 4;
-    constexpr int width = precision + 4;
-    std::cout << std::fixed << std::setprecision(precision);
-
     // Set interval for continous logging
     std::chrono::duration<int, std::milli> interval;
     interval = std::chrono::duration<int, std::milli>(100);
