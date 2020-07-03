@@ -26,6 +26,7 @@ public:
         program_start_( program_start ) {
     }
 
+    // Print in file and on screen
     virtual void duo( std::ofstream& ostream ) 
     {
         std::string log = formatted();
@@ -33,21 +34,26 @@ public:
         file( ostream, log );
     }
 
+    // Print in file
     virtual void file( std::ofstream& ofs, std::string& s ) 
     {
         ofs << s;
     }
 
+    // Print argument on screen
     virtual void screen( std::string& s ) 
     {
         std::cout << s << std::flush;
     }
 
+    // Print cached samples on screen
     virtual void screen() 
-    {
-        std::cout << formatted();
+    {   
+        std::string msg = formatted();
+        screen( msg );
     }
 
+    // Return cached samples in formatted string
     virtual std::string formatted() {
         std::stringstream srm;
         std::deque<std::pair<std::string, Sample>> samples;
@@ -68,12 +74,14 @@ public:
         return srm.str();
     }
 
+    // Cache sample thread-safely
     virtual void queue( std::string producer, Sample spl ) 
     {
         const std::lock_guard<std::mutex> lock( mx_ );
         samples_.push_back( {producer, spl} );
     }
 
+    // Get cached samples thread-safely
     virtual void unqueue( std::deque<std::pair<std::string, Sample>>& samples_copy ) 
     {
         const std::lock_guard<std::mutex> lock( mx_ );
