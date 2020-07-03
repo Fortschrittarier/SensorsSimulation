@@ -12,7 +12,7 @@
 	make test
 
 ## Windows ##
-In a *Developer Command Prompt*
+In a *Terminal*
 
 	git clone --recurse-submodules https://github.com/Fortschrittarier/SensorsSimulation.git
 	cd SensorsSimulation
@@ -27,7 +27,7 @@ Open ```build\sensor_project.sln``` with *Visual Studio*
 - Set ```Runtime Library``` to ```Multithreaded (/MT)```
 - Build solution as ```Release x64```
 	
-Back in *Developer Command Prompt*
+Back in *Terminal*
 
 	bin\Release\sensors.exe ..\sensor_config.yml
 	bin\Release\test_main.exe
