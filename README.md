@@ -19,11 +19,12 @@ In a *Developer Command Prompt*
     cd build/
     cmake ..
 	
-Open SensorsSimulation.sln with *Visual Studio*
-	* Right click on project ```test_main``` and open ```Properties```
-	* Select ```C/C++ -> Code Generation```
-	* Set ```Runtime Library``` to ```Multithreaded (/MT)```
-	* Build solution as ```Release x64```
+Open ```build\sensor_project.sln``` with *Visual Studio*
+
+- Right click on project ```test_main``` and open ```Properties```
+- Select ```C/C++ -> Code Generation```
+- Set ```Runtime Library``` to ```Multithreaded (/MT)```
+- Build solution as ```Release x64```
 	
 Back in *Developer Command Prompt*
 
