@@ -10,4 +10,4 @@
     make
     ./sensors ../sensor_config.yml
 
-## Windos ##
+## Windows ##
