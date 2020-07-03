@@ -8,7 +8,8 @@
     cd build/
     cmake ..
     make
-    ./sensors ../sensor_config.yml
+    ./bin/sensors ../sensor_config.yml
+	make test
 
 ## Windows ##
 In a *Developer Command Prompt*
